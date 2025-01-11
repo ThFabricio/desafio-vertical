@@ -24,7 +24,6 @@
       <Folder Include="Application\Services\" />
       <Folder Include="Application\ViewModel\" />
       <Folder Include="Domain\DTO\" />
-      <Folder Include="Domain\Models\" />
       <Folder Include="Infrastructure\Repository\" />
     </ItemGroup>
 
