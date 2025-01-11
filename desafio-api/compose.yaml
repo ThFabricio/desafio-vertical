@@ -1,9 +1,9 @@
 ﻿services:
-  desafio-api:
-    image: desafio-api
-    build:
-      context: .
-      dockerfile: desafio-api/Dockerfile
+#  desafio-api:
+#    image: desafio-api
+#    build:
+#      context: .
+#      dockerfile: desafio-api/Dockerfile
       
   desafio-db:
     image: postgres:14
