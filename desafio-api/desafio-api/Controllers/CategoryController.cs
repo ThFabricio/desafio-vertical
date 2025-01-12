@@ -10,10 +10,12 @@ namespace desafio_api.Controllers;
 public class CategoryController : ControllerBase
 {
     private readonly ICategoryRepository _categoryRepository;
+    private readonly ILogger<CategoryController> _logger;
     
-    public CategoryController(ICategoryRepository categoryRepository)
+    public CategoryController(ICategoryRepository categoryRepository, ILogger<CategoryController> logger)
     {
         _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [HttpPost]
@@ -21,6 +23,14 @@ public class CategoryController : ControllerBase
     {
         var category = new CategoryModel(categoryView.title, categoryView.description, categoryView.code);
         _categoryRepository.CreateCategory(category);
+        
+        if(category.id == Guid.Empty)
+        {
+            _logger.LogError("Category not created");
+            return BadRequest();
+        }
+        
+        _logger.LogInformation("Category created");
         return Ok();
     }
     
@@ -28,6 +38,14 @@ public class CategoryController : ControllerBase
     public IActionResult GetCategories()
     {
         var categories = _categoryRepository.getCategoryModels();
+        
+        if(categories.Count == 0)
+        {
+            _logger.LogWarning("No categories found");
+            return NoContent();
+        }
+        
+        _logger.LogInformation("Categories found");
         return Ok(categories);
     }
     
@@ -36,6 +54,14 @@ public class CategoryController : ControllerBase
     public IActionResult GetCategoryById(Guid id)
     {
         var category = _categoryRepository.getCategoryModelById(id);
+        
+        if(category == null)
+        {
+            _logger.LogWarning("Category not found");
+            return NoContent();
+        }
+        
+        _logger.LogInformation("Category found");
         return Ok(category);
     }
     
@@ -44,8 +70,23 @@ public class CategoryController : ControllerBase
     public IActionResult UpdateCategory(Guid id, CategoryViewModel categoryView)
     {
         var category = _categoryRepository.getCategoryModelById(id);
+        
+        if(category == null)
+        {
+            _logger.LogWarning("Category not found");
+            return NoContent();
+        }
+        
         category.UpdateCategory(categoryView.title, categoryView.description, categoryView.code);
         _categoryRepository.UpdateCategory(category);
+        
+        if(category.id == Guid.Empty)
+        {
+            _logger.LogError("Category not updated");
+            return BadRequest();
+        }
+        
+        _logger.LogInformation("Category updated");
         return Ok();
     }
     
