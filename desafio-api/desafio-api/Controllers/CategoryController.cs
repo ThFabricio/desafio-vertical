@@ -26,11 +26,11 @@ public class CategoryController : ControllerBase
         
         if(category.id == Guid.Empty)
         {
-            _logger.LogError("Category not created");
+            _logger.LogError("Route - CreateCategory: Category not created");
             return BadRequest();
         }
         
-        _logger.LogInformation("Category created");
+        _logger.LogInformation("Route - CreateCategory: Category created");
         return Ok();
     }
     
@@ -41,11 +41,11 @@ public class CategoryController : ControllerBase
         
         if(categories.Count == 0)
         {
-            _logger.LogWarning("No categories found");
+            _logger.LogWarning("Route - GetCategories: Categories not found");
             return NoContent();
         }
         
-        _logger.LogInformation("Categories found");
+        _logger.LogInformation("Route - GetCategories: Categories found");
         return Ok(categories);
     }
     
@@ -57,11 +57,11 @@ public class CategoryController : ControllerBase
         
         if(category == null)
         {
-            _logger.LogWarning("Category not found");
+            _logger.LogWarning("Route - GetCategoryById: Category not found");
             return NoContent();
         }
         
-        _logger.LogInformation("Category found");
+        _logger.LogInformation("Route - GetCategoryById: Category found");
         return Ok(category);
     }
     
@@ -73,7 +73,7 @@ public class CategoryController : ControllerBase
         
         if(category == null)
         {
-            _logger.LogWarning("Category not found");
+            _logger.LogWarning("Route - UpdateCategory: Category not found");
             return NoContent();
         }
         
@@ -82,11 +82,11 @@ public class CategoryController : ControllerBase
         
         if(category.id == Guid.Empty)
         {
-            _logger.LogError("Category not updated");
+            _logger.LogError("Route - UpdateCategory: Category not updated");
             return BadRequest();
         }
         
-        _logger.LogInformation("Category updated");
+        _logger.LogInformation("Route - UpdateCategory: Category updated");
         return Ok();
     }
     
@@ -98,7 +98,7 @@ public class CategoryController : ControllerBase
         
         if(category == null)
         {
-            _logger.LogWarning("Category not found");
+            _logger.LogWarning("Route - DeleteCategory: Category not found");
             return NoContent();
         }
         
@@ -106,11 +106,11 @@ public class CategoryController : ControllerBase
         
         if(!deleted)
         {
-            _logger.LogError("Category not deleted");
+            _logger.LogError("Route - DeleteCategory: Category not deleted");
             return BadRequest();
         }
         
-        _logger.LogInformation("Category deleted");
+        _logger.LogInformation("Route - DeleteCategory: Category deleted");
         return Ok();
     }
     
