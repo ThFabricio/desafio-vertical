@@ -38,4 +38,15 @@ public class CategoryController : ControllerBase
         var category = _categoryRepository.getCategoryModelById(id);
         return Ok(category);
     }
+    
+    [HttpPut]
+    [Route("{id}")]
+    public IActionResult UpdateCategory(Guid id, CategoryViewModel categoryView)
+    {
+        var category = _categoryRepository.getCategoryModelById(id);
+        category.UpdateCategory(categoryView.title, categoryView.description, categoryView.code);
+        _categoryRepository.UpdateCategory(category);
+        return Ok();
+    }
+    
 }

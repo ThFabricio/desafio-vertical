@@ -26,4 +26,12 @@ public class CategoryModel
         this.created_at = DateTime.UtcNow;
     }
     
+    public void UpdateCategory(string title, string description, string code)
+    {
+        this.title = title;
+        this.description = description;
+        this.code = code;
+        this.updated_at = DateTime.UtcNow;
+    }
+    
 }

@@ -23,4 +23,10 @@ public class CategoryRepository: ICategoryRepository
     {
         return _context.Categories.FirstOrDefault(x => x.id == id && x.deleted_at == null);
     }
+    
+    public void UpdateCategory(CategoryModel category)
+    {
+        _context.Categories.Update(category);
+        _context.SaveChanges();
+    }
 }

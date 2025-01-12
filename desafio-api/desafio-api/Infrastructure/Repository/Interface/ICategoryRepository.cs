@@ -9,4 +9,6 @@ public interface ICategoryRepository
     List<CategoryModel> getCategoryModels();
     
     CategoryModel getCategoryModelById(Guid id);
+    
+    void UpdateCategory(CategoryModel category);
 }
