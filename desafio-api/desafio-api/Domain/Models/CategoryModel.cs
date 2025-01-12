@@ -34,4 +34,9 @@ public class CategoryModel
         this.updated_at = DateTime.UtcNow;
     }
     
+    public void DeleteCategory()
+    {
+        this.deleted_at = DateTime.UtcNow;
+    }
+    
 }

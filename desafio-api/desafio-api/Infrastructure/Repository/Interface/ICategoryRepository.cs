@@ -11,4 +11,6 @@ public interface ICategoryRepository
     CategoryModel getCategoryModelById(Guid id);
     
     void UpdateCategory(CategoryModel category);
+    
+    void DeleteCategory(Guid id);
 }

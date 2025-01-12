@@ -29,4 +29,12 @@ public class CategoryRepository: ICategoryRepository
         _context.Categories.Update(category);
         _context.SaveChanges();
     }
+    
+    public void DeleteCategory(Guid id)
+    {
+        var category = _context.Categories.FirstOrDefault(x => x.id == id && x.deleted_at == null);
+        category.DeleteCategory();
+        _context.Categories.Update(category);
+        _context.SaveChanges();
+    }
 }

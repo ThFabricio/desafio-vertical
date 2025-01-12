@@ -49,4 +49,12 @@ public class CategoryController : ControllerBase
         return Ok();
     }
     
+    [HttpDelete]
+    [Route("{id}")]
+    public IActionResult DeleteCategory(Guid id)
+    {
+        _categoryRepository.DeleteCategory(id);
+        return Ok();
+    }
+    
 }
