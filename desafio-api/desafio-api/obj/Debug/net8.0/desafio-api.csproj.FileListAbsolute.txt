@@ -25,7 +25,6 @@
 /home/thiagof/Documentos/desafio-vertical/desafio-api/desafio-api/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.desafio-api.props
 /home/thiagof/Documentos/desafio-vertical/desafio-api/desafio-api/obj/Debug/net8.0/staticwebassets.pack.json
 /home/thiagof/Documentos/desafio-vertical/desafio-api/desafio-api/obj/Debug/net8.0/scopedcss/bundle/desafio-api.styles.css
-/home/thiagof/Documentos/desafio-vertical/desafio-api/desafio-api/obj/Debug/net8.0/desafio-.57ABE880.Up2Date
 /home/thiagof/Documentos/desafio-vertical/desafio-api/desafio-api/obj/Debug/net8.0/desafio-api.dll
 /home/thiagof/Documentos/desafio-vertical/desafio-api/desafio-api/obj/Debug/net8.0/refint/desafio-api.dll
 /home/thiagof/Documentos/desafio-vertical/desafio-api/desafio-api/obj/Debug/net8.0/desafio-api.pdb
@@ -133,3 +132,4 @@
 /home/thiagof/Documentos/desafio-vertical/desafio-api/desafio-api/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /home/thiagof/Documentos/desafio-vertical/desafio-api/desafio-api/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /home/thiagof/Documentos/desafio-vertical/desafio-api/desafio-api/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
+/home/thiagof/Documentos/desafio-vertical/desafio-api/desafio-api/obj/Debug/net8.0/desafio-api.csproj.CopyComplete

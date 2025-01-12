@@ -1,3 +1,4 @@
+using desafio_api.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace desafio_api.Infrastructure;
@@ -10,4 +11,6 @@ public class ConnectionContext: DbContext
                                     "Database=desafio;" +
                                     "Username=desafio;" +
                                     "Password=desafio");
+    
+    public DbSet<CategoryModel> Categories { get; set; }
 }
