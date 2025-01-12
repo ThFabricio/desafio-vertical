@@ -8,7 +8,7 @@ public class ConnectionContext: DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         => optionsBuilder.UseNpgsql("Server=localhost;" +
                                     "Port=5435;" +
-                                    "Database=desafio;" +
+                                    "Database=postgres;" +
                                     "Username=desafio;" +
                                     "Password=desafio");
     
