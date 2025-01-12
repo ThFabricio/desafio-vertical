@@ -6,8 +6,8 @@ namespace desafio_api.Infrastructure;
 public class ConnectionContext: DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
-        => optionsBuilder.UseNpgsql("Server=localhost;" +
-                                    "Port=5435;" +
+        => optionsBuilder.UseNpgsql("Server=desafio-db;" +
+                                    "Port=5432;" +
                                     "Database=postgres;" +
                                     "Username=desafio;" +
                                     "Password=desafio");
