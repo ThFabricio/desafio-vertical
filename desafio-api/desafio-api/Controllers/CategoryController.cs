@@ -30,4 +30,12 @@ public class CategoryController : ControllerBase
         var categories = _categoryRepository.getCategoryModels();
         return Ok(categories);
     }
+    
+    [HttpGet]
+    [Route("{id}")]
+    public IActionResult GetCategoryById(Guid id)
+    {
+        var category = _categoryRepository.getCategoryModelById(id);
+        return Ok(category);
+    }
 }

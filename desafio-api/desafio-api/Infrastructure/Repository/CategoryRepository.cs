@@ -18,4 +18,9 @@ public class CategoryRepository: ICategoryRepository
     {
         return _context.Categories.ToList();
     }
+    
+    public CategoryModel getCategoryModelById(Guid id)
+    {
+        return _context.Categories.FirstOrDefault(x => x.id == id);
+    }
 }
