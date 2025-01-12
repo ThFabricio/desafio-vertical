@@ -5,7 +5,7 @@ using System.Runtime.InteropServices.JavaScript;
 namespace desafio_api.Domain.Models;
 
 [Table("category")]
-public class Category
+public class CategoryModel
 {
  
     [Key]
@@ -17,7 +17,7 @@ public class Category
     public DateTime? updated_at { get; private set; }
     public DateTime? deleted_at { get; private set; }
     
-    public Category(string title, string description, string code)
+    public CategoryModel(string title, string description, string code)
     {
         this.id = Guid.NewGuid();
         this.title = title;
