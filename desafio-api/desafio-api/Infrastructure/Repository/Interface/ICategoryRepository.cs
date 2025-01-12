@@ -4,13 +4,13 @@ namespace desafio_api.Infrastructure.Repository.Interface;
 
 public interface ICategoryRepository
 {
-    void CreateCategory(CategoryModel category);
+    CategoryModel CreateCategory(CategoryModel category);
 
     List<CategoryModel> getCategoryModels();
     
     CategoryModel getCategoryModelById(Guid id);
     
-    void UpdateCategory(CategoryModel category);
+    CategoryModel UpdateCategory(CategoryModel category);
     
     Boolean DeleteCategory(Guid id);
 }

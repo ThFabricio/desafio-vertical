@@ -8,10 +8,11 @@ public class CategoryRepository: ICategoryRepository
     private readonly ConnectionContext _context = new ConnectionContext();
     
     
-    public void CreateCategory(CategoryModel category)
+    public CategoryModel CreateCategory(CategoryModel category)
     {
        _context.Categories.Add(category);
        _context.SaveChanges();
+       return category;
     }
 
     public List<CategoryModel> getCategoryModels()
@@ -24,10 +25,11 @@ public class CategoryRepository: ICategoryRepository
         return _context.Categories.FirstOrDefault(x => x.id == id && x.deleted_at == null);
     }
     
-    public void UpdateCategory(CategoryModel category)
+    public CategoryModel UpdateCategory(CategoryModel category)
     {
         _context.Categories.Update(category);
         _context.SaveChanges();
+        return category;
     }
     
     public Boolean DeleteCategory(Guid id)

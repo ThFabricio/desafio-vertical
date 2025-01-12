@@ -22,16 +22,16 @@ public class CategoryController : ControllerBase
     public IActionResult CreateCategory(CategoryViewModel categoryView)
     {
         var category = new CategoryModel(categoryView.title, categoryView.description, categoryView.code);
-        _categoryRepository.CreateCategory(category);
+        var created_category = _categoryRepository.CreateCategory(category);
         
-        if(category.id == Guid.Empty)
+        if(created_category.id == Guid.Empty)
         {
             _logger.LogError("Route - CreateCategory: Category not created");
-            return BadRequest();
+            return BadRequest(new {message = "Category not created", StatusCode = 400});
         }
         
         _logger.LogInformation("Route - CreateCategory: Category created");
-        return Ok();
+        return Ok(new {message = "Category created", StatusCode = 200, category = created_category});
     }
     
     [HttpGet]
@@ -46,7 +46,7 @@ public class CategoryController : ControllerBase
         }
         
         _logger.LogInformation("Route - GetCategories: Categories found");
-        return Ok(categories);
+        return Ok(new {message = "Categories found", StatusCode = 200, categories = categories});
     }
     
     [HttpGet]
@@ -62,7 +62,7 @@ public class CategoryController : ControllerBase
         }
         
         _logger.LogInformation("Route - GetCategoryById: Category found");
-        return Ok(category);
+        return Ok(new {message = "Category found", StatusCode = 200, category = category});
     }
     
     [HttpPut]
@@ -78,16 +78,16 @@ public class CategoryController : ControllerBase
         }
         
         category.UpdateCategory(categoryView.title, categoryView.description, categoryView.code);
-        _categoryRepository.UpdateCategory(category);
+        var update_category = _categoryRepository.UpdateCategory(category);
         
-        if(category.id == Guid.Empty)
+        if(update_category.id == Guid.Empty)
         {
             _logger.LogError("Route - UpdateCategory: Category not updated");
-            return BadRequest();
+            return BadRequest(new {message="Category not updated", StatusCode = 400});
         }
         
         _logger.LogInformation("Route - UpdateCategory: Category updated");
-        return Ok();
+        return Ok(new {message = "Category updated", StatusCode = 200, category = update_category});
     }
     
     [HttpDelete]
@@ -107,11 +107,11 @@ public class CategoryController : ControllerBase
         if(!deleted)
         {
             _logger.LogError("Route - DeleteCategory: Category not deleted");
-            return BadRequest();
+            return BadRequest(new {message = "Category not deleted", StatusCode = 400});
         }
         
         _logger.LogInformation("Route - DeleteCategory: Category deleted");
-        return Ok();
+        return Ok(new {message = "Category deleted", StatusCode = 200});
     }
     
 }
