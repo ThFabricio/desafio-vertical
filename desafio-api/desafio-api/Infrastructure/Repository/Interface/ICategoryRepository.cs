@@ -12,5 +12,5 @@ public interface ICategoryRepository
     
     void UpdateCategory(CategoryModel category);
     
-    void DeleteCategory(Guid id);
+    Boolean DeleteCategory(Guid id);
 }

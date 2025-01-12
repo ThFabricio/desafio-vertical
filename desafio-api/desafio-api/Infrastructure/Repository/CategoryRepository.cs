@@ -30,11 +30,12 @@ public class CategoryRepository: ICategoryRepository
         _context.SaveChanges();
     }
     
-    public void DeleteCategory(Guid id)
+    public Boolean DeleteCategory(Guid id)
     {
         var category = _context.Categories.FirstOrDefault(x => x.id == id && x.deleted_at == null);
         category.DeleteCategory();
         _context.Categories.Update(category);
         _context.SaveChanges();
+        return true;
     }
 }

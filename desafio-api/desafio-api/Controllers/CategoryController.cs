@@ -94,7 +94,23 @@ public class CategoryController : ControllerBase
     [Route("{id}")]
     public IActionResult DeleteCategory(Guid id)
     {
-        _categoryRepository.DeleteCategory(id);
+        var category = _categoryRepository.getCategoryModelById(id);
+        
+        if(category == null)
+        {
+            _logger.LogWarning("Category not found");
+            return NoContent();
+        }
+        
+        var deleted = _categoryRepository.DeleteCategory(id);
+        
+        if(!deleted)
+        {
+            _logger.LogError("Category not deleted");
+            return BadRequest();
+        }
+        
+        _logger.LogInformation("Category deleted");
         return Ok();
     }
     
