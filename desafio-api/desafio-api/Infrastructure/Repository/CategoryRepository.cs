@@ -16,11 +16,11 @@ public class CategoryRepository: ICategoryRepository
 
     public List<CategoryModel> getCategoryModels()
     {
-        return _context.Categories.ToList();
+        return _context.Categories.Where(x => x.deleted_at == null).ToList();
     }
     
     public CategoryModel getCategoryModelById(Guid id)
     {
-        return _context.Categories.FirstOrDefault(x => x.id == id);
+        return _context.Categories.FirstOrDefault(x => x.id == id && x.deleted_at == null);
     }
 }
