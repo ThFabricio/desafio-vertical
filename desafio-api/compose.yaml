@@ -7,14 +7,12 @@ services:
       dockerfile: desafio-api/Dockerfile
     image: desafio-api
     ports:
-      - "8080:8080"    # Mapeia a porta 8080 do container para a porta 8080 do host
-      - "8081:8081"    # Mapeia a porta 8081 do container para a porta 8081 do host (se necessário)
+      - "8080:8080"   
     depends_on:
       desafio-db:
         condition: service_healthy
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      # Ajuste a string de conexão para apontar para o serviço 'desafio-db'
       - ConnectionStrings__DefaultConnection=Host=desafio-db;Port=5432;Database=postgres;Username=desafio;Password=desafio
 
   desafio-db:
