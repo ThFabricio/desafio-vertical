@@ -23,7 +23,7 @@ public class CategoryModel
         this.title = title;
         this.description = description;
         this.code = code;
-        this.created_at = DateTime.Now;
+        this.created_at = DateTime.UtcNow;
     }
     
 }
