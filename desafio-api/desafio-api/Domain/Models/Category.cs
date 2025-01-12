@@ -9,7 +9,7 @@ public class Category
 {
  
     [Key]
-    public Guid id { get; private set; }
+    public Guid id { get; private init; }
     public string title { get; private set; }
     public string description { get; private set; }
     public string code { get; private set; }
