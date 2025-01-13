@@ -33,7 +33,7 @@ public class CategoryController : ControllerBase
             }
 
             _logger.LogInformation("Route - CreateCategory: Category created");
-            return Ok(new { message = "Category created", StatusCode = 200, category = createdCategory });
+            return StatusCode(201, new { message = "Category created", StatusCode = 201, category = createdCategory });
         }
         catch (Exception ex) when (ex.Message.Contains("Title is already in use"))
         {
