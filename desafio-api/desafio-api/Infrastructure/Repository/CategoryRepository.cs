@@ -10,6 +10,11 @@ public class CategoryRepository: ICategoryRepository
     
     public CategoryModel CreateCategory(CategoryModel category)
     {
+        var categoryExists = _context.Categories.FirstOrDefault(x => x.title == category.title && x.deleted_at == null);
+        if(categoryExists != null)
+        {
+            throw new Exception("Category already exists");
+        }
        _context.Categories.Add(category);
        _context.SaveChanges();
        return category;
@@ -27,6 +32,11 @@ public class CategoryRepository: ICategoryRepository
     
     public CategoryModel UpdateCategory(CategoryModel category)
     {
+        var categoryExists = _context.Categories.FirstOrDefault(x => x.title == category.title && x.id != category.id && x.deleted_at == null);
+        if(categoryExists != null)
+        {
+            throw new Exception("Category already exists");
+        }
         _context.Categories.Update(category);
         _context.SaveChanges();
         return category;

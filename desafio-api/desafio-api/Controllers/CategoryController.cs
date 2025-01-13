@@ -21,97 +21,139 @@ public class CategoryController : ControllerBase
     [HttpPost]
     public IActionResult CreateCategory(CategoryViewModel categoryView)
     {
-        var category = new CategoryModel(categoryView.title, categoryView.description, categoryView.code);
-        var created_category = _categoryRepository.CreateCategory(category);
-        
-        if(created_category.id == Guid.Empty)
+        try
         {
-            _logger.LogError("Route - CreateCategory: Category not created");
-            return BadRequest(new {message = "Category not created", StatusCode = 400});
+            var category = new CategoryModel(categoryView.title, categoryView.description, categoryView.code);
+            var createdCategory = _categoryRepository.CreateCategory(category);
+
+            if (createdCategory.id == Guid.Empty)
+            {
+                _logger.LogError("Route - CreateCategory: Category not created");
+                return BadRequest(new { message = "Category not created", StatusCode = 400 });
+            }
+
+            _logger.LogInformation("Route - CreateCategory: Category created");
+            return Ok(new { message = "Category created", StatusCode = 200, category = createdCategory });
         }
-        
-        _logger.LogInformation("Route - CreateCategory: Category created");
-        return Ok(new {message = "Category created", StatusCode = 200, category = created_category});
+        catch (Exception ex) when (ex.Message.Contains("already exists"))
+        {
+            _logger.LogWarning(ex, "Route - CreateCategory: Title already exists");
+            return Conflict(new { message = ex.Message, StatusCode = 409 });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Route - CreateCategory: An unexpected error occurred");
+            return StatusCode(500, new { message = "An unexpected error occurred", StatusCode = 500 });
+        }
     }
     
     [HttpGet]
     public IActionResult GetCategories()
     {
-        var categories = _categoryRepository.getCategoryModels();
-        
-        if(categories.Count == 0)
+        try 
         {
-            _logger.LogWarning("Route - GetCategories: Categories not found");
-            return NoContent();
+            var categories = _categoryRepository.getCategoryModels();
+            
+            if(categories.Count == 0)
+            {
+                _logger.LogWarning("Route - GetCategories: No categories found");
+                return NoContent();
+            }
+            
+            _logger.LogInformation("Route - GetCategories: Categories found");
+            return Ok(new {message = "Categories found", StatusCode = 200, categories = categories});
         }
-        
-        _logger.LogInformation("Route - GetCategories: Categories found");
-        return Ok(new {message = "Categories found", StatusCode = 200, categories = categories});
+        catch(Exception ex)
+        {
+            _logger.LogError(ex, "Route - GetCategories: An unexpected error occurred");
+            return StatusCode(500, new {message = "An unexpected error occurred", StatusCode = 500});
+        }
     }
     
     [HttpGet]
     [Route("{id}")]
     public IActionResult GetCategoryById(Guid id)
     {
-        var category = _categoryRepository.getCategoryModelById(id);
-        
-        if(category == null)
+        try
         {
-            _logger.LogWarning("Route - GetCategoryById: Category not found");
-            return NoContent();
+            var category = _categoryRepository.getCategoryModelById(id);
+
+            if (category == null)
+            {
+                _logger.LogWarning("Route - GetCategoryById: Category not found");
+                return NoContent();
+            }
+
+            _logger.LogInformation("Route - GetCategoryById: Category found");
+            return Ok(new { message = "Category found", StatusCode = 200, category = category });
         }
-        
-        _logger.LogInformation("Route - GetCategoryById: Category found");
-        return Ok(new {message = "Category found", StatusCode = 200, category = category});
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Route - GetCategoryById: An unexpected error occurred");
+            return StatusCode(500, new { message = "An unexpected error occurred", StatusCode = 500 });
+        }
     }
     
     [HttpPut]
     [Route("{id}")]
     public IActionResult UpdateCategory(Guid id, CategoryViewModel categoryView)
     {
-        var category = _categoryRepository.getCategoryModelById(id);
-        
-        if(category == null)
+        try
         {
-            _logger.LogWarning("Route - UpdateCategory: Category not found");
-            return NoContent();
+            var category = _categoryRepository.getCategoryModelById(id);
+
+            if (category == null)
+            {
+                _logger.LogWarning("Route - UpdateCategory: Category not found");
+                return NoContent();
+            }
+
+            category.UpdateCategory(categoryView.title, categoryView.description, categoryView.code);
+            var updatedCategory = _categoryRepository.UpdateCategory(category);
+
+            if (updatedCategory.id == Guid.Empty)
+            {
+                _logger.LogError("Route - UpdateCategory: Category not updated");
+                return BadRequest(new { message = "Category not updated", StatusCode = 400 });
+            }
+
+            _logger.LogInformation("Route - UpdateCategory: Category updated");
+            return Ok(new { message = "Category updated", StatusCode = 200, category = updatedCategory });
         }
-        
-        category.UpdateCategory(categoryView.title, categoryView.description, categoryView.code);
-        var update_category = _categoryRepository.UpdateCategory(category);
-        
-        if(update_category.id == Guid.Empty)
+        catch (Exception ex) when (ex.Message.Contains("already exists"))
         {
-            _logger.LogError("Route - UpdateCategory: Category not updated");
-            return BadRequest(new {message="Category not updated", StatusCode = 400});
+            _logger.LogWarning(ex, "Route - UpdateCategory: Title already exists");
+            return Conflict(new { message = ex.Message, StatusCode = 409 });
         }
-        
-        _logger.LogInformation("Route - UpdateCategory: Category updated");
-        return Ok(new {message = "Category updated", StatusCode = 200, category = update_category});
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Route - UpdateCategory: An unexpected error occurred");
+            return StatusCode(500, new { message = "An unexpected error occurred", StatusCode = 500 });
+        }
     }
     
     [HttpDelete]
     [Route("{id}")]
     public IActionResult DeleteCategory(Guid id)
     {
-        var category = _categoryRepository.getCategoryModelById(id);
-        
-        if(category == null)
+        try
         {
-            _logger.LogWarning("Route - DeleteCategory: Category not found");
-            return NoContent();
+            var deleted = _categoryRepository.DeleteCategory(id);
+
+            if (!deleted)
+            {
+                _logger.LogError("Route - DeleteCategory: Category not deleted");
+                return BadRequest(new { message = "Category not deleted", StatusCode = 400 });
+            }
+
+            _logger.LogInformation("Route - DeleteCategory: Category deleted");
+            return Ok(new { message = "Category deleted", StatusCode = 200 });
         }
-        
-        var deleted = _categoryRepository.DeleteCategory(id);
-        
-        if(!deleted)
+        catch (Exception ex)
         {
-            _logger.LogError("Route - DeleteCategory: Category not deleted");
-            return BadRequest(new {message = "Category not deleted", StatusCode = 400});
+            _logger.LogError(ex, "Route - DeleteCategory: An unexpected error occurred");
+            return StatusCode(500, new { message = "An unexpected error occurred", StatusCode = 500 });
         }
-        
-        _logger.LogInformation("Route - DeleteCategory: Category deleted");
-        return Ok(new {message = "Category deleted", StatusCode = 200});
     }
     
 }
