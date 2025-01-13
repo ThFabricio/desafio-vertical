@@ -35,9 +35,14 @@ public class CategoryController : ControllerBase
             _logger.LogInformation("Route - CreateCategory: Category created");
             return Ok(new { message = "Category created", StatusCode = 200, category = createdCategory });
         }
-        catch (Exception ex) when (ex.Message.Contains("already exists"))
+        catch (Exception ex) when (ex.Message.Contains("Title is already in use"))
         {
             _logger.LogWarning(ex, "Route - CreateCategory: Title already exists");
+            return Conflict(new { message = ex.Message, StatusCode = 409 });
+        }
+        catch(Exception ex) when (ex.Message.Contains("Code is already in use"))
+        {
+            _logger.LogWarning(ex, "Route - CreateCategory: Code already exists");
             return Conflict(new { message = ex.Message, StatusCode = 409 });
         }
         catch (Exception ex)

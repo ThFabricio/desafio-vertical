@@ -10,10 +10,17 @@ public class CategoryRepository: ICategoryRepository
     
     public CategoryModel CreateCategory(CategoryModel category)
     {
-        var categoryExists = _context.Categories.FirstOrDefault(x => x.title == category.title && x.deleted_at == null);
+        var categoryExists = _context.Categories.FirstOrDefault(x => (x.title == category.title || x.code == category.code) && x.deleted_at == null);
         if(categoryExists != null)
         {
-            throw new Exception("Category already exists");
+           if(categoryExists.title == category.title)
+           {
+               throw new Exception("Title is already in use");
+           }
+           else if(categoryExists.code == category.code)
+           {
+               throw new Exception("Code is already in use");
+           }
         }
         _context.Categories.Add(category);
         _context.SaveChanges();
