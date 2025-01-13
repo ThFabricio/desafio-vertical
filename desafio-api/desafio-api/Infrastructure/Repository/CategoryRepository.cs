@@ -15,9 +15,9 @@ public class CategoryRepository: ICategoryRepository
         {
             throw new Exception("Category already exists");
         }
-       _context.Categories.Add(category);
-       _context.SaveChanges();
-       return category;
+        _context.Categories.Add(category);
+        _context.SaveChanges();
+        return category;
     }
 
     public List<CategoryModel> getCategoryModels()
@@ -25,7 +25,7 @@ public class CategoryRepository: ICategoryRepository
         return _context.Categories.Where(x => x.deleted_at == null).ToList();
     }
     
-    public CategoryModel getCategoryModelById(Guid id)
+    public CategoryModel? getCategoryModelById(Guid id)
     {
         return _context.Categories.FirstOrDefault(x => x.id == id && x.deleted_at == null);
     }
@@ -45,6 +45,10 @@ public class CategoryRepository: ICategoryRepository
     public Boolean DeleteCategory(Guid id)
     {
         var category = _context.Categories.FirstOrDefault(x => x.id == id && x.deleted_at == null);
+        if(category == null)
+        {
+            throw new Exception("Category not found");
+        }
         category.DeleteCategory();
         _context.Categories.Update(category);
         _context.SaveChanges();

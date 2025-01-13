@@ -149,6 +149,11 @@ public class CategoryController : ControllerBase
             _logger.LogInformation("Route - DeleteCategory: Category deleted");
             return Ok(new { message = "Category deleted", StatusCode = 200 });
         }
+        catch (Exception ex) when (ex.Message.Contains("not found"))
+        {
+            _logger.LogWarning(ex, "Route - DeleteCategory: Category not found");
+            return NoContent();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Route - DeleteCategory: An unexpected error occurred");
