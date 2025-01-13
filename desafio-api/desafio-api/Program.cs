@@ -15,6 +15,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddDbContext<ConnectionContext>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("desafio-front",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -29,6 +40,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("desafio-front");
 
 app.UseHttpsRedirection();
 
