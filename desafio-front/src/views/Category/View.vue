@@ -60,21 +60,21 @@
         },
         methods: {
             fetchCategorias() {
-            axios
-                .get('http://localhost:8080/api/v1/category')
-                .then(response => {
-                console.log(response)
-                this.categorias = response.data.categories
-                })
-                .catch(error => console.error(error))
+                axios
+                    .get('http://localhost:8080/api/v1/category')
+                    .then(response => {
+                    console.log(response)
+                    this.categorias = response.data.categories
+                    })
+                    .catch(error => console.error(error))
             },
             deletarCategoria(id) {
-            if (confirm('Deseja realmente deletar esta categoria?')) {
-                axios
-                .delete(`http://localhost:8080/api/v1/category/${id}`)
-                .then(() => this.fetchCategorias())
-                .catch(error => console.error(error))
-            }
+                if (confirm('Deseja realmente deletar esta categoria?')) {
+                    axios
+                    .delete(`http://localhost:8080/api/v1/category/${id}`)
+                    .then(() => this.fetchCategorias())
+                    .catch(error => console.error(error))
+                }
             }
         }
     }
