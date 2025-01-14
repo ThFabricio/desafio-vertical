@@ -49,57 +49,69 @@
         </div>
       </div>
     </div>
-</template>
+  </template>
   
-<script>
-    import { RouterLink } from 'vue-router'
-    import axios from 'axios'
-
-    export default {
-        components: { RouterLink },
-        data() {
-            return {
-            category: {
-                title: '',
-                description: '',
-                code: ''
-            }
-            }
-        },
-        methods: {
-            submitForm() {
-            axios.post('http://localhost:8080/api/v1/category', this.category)
-                .then(response => {
-                    if (response.status === 201) {
-                        alert('Categoria criada com sucesso!')
-                    }
-                    this.$router.push('/')
-                    
-                })
-                .catch(error => {
-                    if (error.response.status === 409) {
-                        if(error.response.data.message === 'Title is already in use') 
-                        {
-                            alert('O título informado já está em uso.')
-                        }
-                        else if(error.response.data.message === 'Code is already in use')
-                        {
-                            alert('O código informado já está em uso.')
-                        }
-                        else
-                        {
-                            alert('Erro ao criar categoria.')
-                        }
-                    }
-                })
-            }
+  <script>
+  import { RouterLink } from 'vue-router'
+  import axios from 'axios'
+  import Swal from 'sweetalert2'  // Importa SweetAlert2
+  
+  export default {
+    components: { RouterLink },
+    data() {
+      return {
+        category: {
+          title: '',
+          description: '',
+          code: ''
         }
+      }
+    },
+    methods: {
+      submitForm() {
+        axios.post('http://localhost:8080/api/v1/category', this.category)
+          .then(response => {
+            if (response.status === 201) {
+              Swal.fire({
+                title: 'Sucesso!',
+                text: 'Categoria criada com sucesso!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+              })
+            }
+            this.$router.push('/')
+          })
+          .catch(error => {
+            if (error.response && error.response.status === 409) {
+              let message = 'Erro ao criar categoria.'
+              if (error.response.data.message === 'Title is already in use') {
+                message = 'O título informado já está em uso.'
+              } else if (error.response.data.message === 'Code is already in use') {
+                message = 'O código informado já está em uso.'
+              }
+              Swal.fire({
+                title: 'Erro',
+                text: message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+              })
+            } else {
+              Swal.fire({
+                title: 'Erro',
+                text: 'Ocorreu um erro inesperado.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+              })
+            }
+          })
+      }
     }
-</script>
+  }
+  </script>
   
-<style scoped>
-    .container {
+  <style scoped>
+  .container {
     max-width: 600px;
-    }
-</style>
+  }
+  </style>
   
