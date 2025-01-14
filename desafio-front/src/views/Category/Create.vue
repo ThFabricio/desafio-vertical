@@ -54,7 +54,7 @@
   <script>
   import { RouterLink } from 'vue-router'
   import axios from 'axios'
-  import Swal from 'sweetalert2'  // Importa SweetAlert2
+  import Swal from 'sweetalert2'  
   
   export default {
     components: { RouterLink },
