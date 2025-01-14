@@ -48,6 +48,7 @@
   
 <script>
     import axios from 'axios'
+    import Swal from 'sweetalert2'
 
     export default {
         data() {
@@ -66,15 +67,43 @@
                     console.log(response)
                     this.categorias = response.data.categories
                     })
-                    .catch(error => console.error(error))
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro!',
+                            text: 'Erro ao carregar categorias!'
+                        })
+                    })
             },
             deletarCategoria(id) {
-                if (confirm('Deseja realmente deletar esta categoria?')) {
-                    axios
-                    .delete(`http://localhost:8080/api/v1/category/${id}`)
-                    .then(() => this.fetchCategorias())
-                    .catch(error => console.error(error))
-                }
+                if (Swal.fire({
+                    title: 'Tem certeza que deseja deletar esta categoria?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sim',
+                    cancelButtonText: 'Não'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        axios
+                            .delete(`http://localhost:8080/api/v1/category/${id}`)
+                            .then(() => {
+                                this.fetchCategorias()
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Sucesso!',
+                                    text: 'Categoria deletada com sucesso!'
+                                })
+                            })
+                            .catch(error => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Erro!',
+                                    text: 'Erro ao deletar categoria!'
+                                })
+                            })
+                    }
+                }));
+                
             }
         }
     }
