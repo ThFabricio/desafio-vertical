@@ -70,10 +70,28 @@
             submitForm() {
             axios.post('http://localhost:8080/api/v1/category', this.category)
                 .then(response => {
-                    console.log('Categoria criada', response)
+                    if (response.status === 201) {
+                        alert('Categoria criada com sucesso!')
+                    }
                     this.$router.push('/')
+                    
                 })
-                .catch(error => console.error(error))
+                .catch(error => {
+                    if (error.response.status === 409) {
+                        if(error.response.data.message === 'Title is already in use') 
+                        {
+                            alert('O título informado já está em uso.')
+                        }
+                        else if(error.response.data.message === 'Code is already in use')
+                        {
+                            alert('O código informado já está em uso.')
+                        }
+                        else
+                        {
+                            alert('Erro ao criar categoria.')
+                        }
+                    }
+                })
             }
         }
     }
