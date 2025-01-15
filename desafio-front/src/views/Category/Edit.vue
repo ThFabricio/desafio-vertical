@@ -3,7 +3,7 @@
       <div class="card shadow-sm">
         <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center">
           <h3 class="mb-0">Editar Categoria</h3>
-          <RouterLink to="/" class="btn btn-primary">Voltar</RouterLink>
+          <RouterLink to="/" class="btn" style="background-color: #63a553; border-color: #63a553; color: white;" >Voltar</RouterLink>
         </div>
         <div class="card-body">
           <form @submit.prevent="submitForm" novalidate>
