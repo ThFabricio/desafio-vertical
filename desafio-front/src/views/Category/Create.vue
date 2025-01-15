@@ -55,63 +55,89 @@
     </div>
   </div>
 </template>
-
   
 <script>
-import { RouterLink } from 'vue-router'
-import Swal from 'sweetalert2'
-
-export default {
-  components: { RouterLink },
-  data() {
-    return {
-      category: {
-        title: '',
-        description: '',
-        code: ''
-      },
-      errors: {} 
-    }
-  },
-  methods: {
-    submitForm() {
-      this.errors = {}
-
-      if (!this.category.title) {
-        this.errors.title = "O título é obrigatório.";
-      } else if (this.category.title.length > 100) {
-        this.errors.title = "O título deve ter no máximo 100 caracteres.";
+  import { RouterLink } from 'vue-router'
+  import axios from 'axios'
+  import Swal from 'sweetalert2'  
+  
+  export default {
+    components: { RouterLink },
+    data() {
+      return {
+        category: {
+          title: '',
+          description: '',
+          code: ''
+        },
+        errors: {} 
       }
+    },
+    methods: {
+      submitForm() {
+        this.errors = {}
 
-      if (!this.category.description) {
-        this.errors.description = "A descrição é obrigatória.";
-      } else if (this.category.description.length > 255) {
-        this.errors.description = "A descrição deve ter no máximo 255 caracteres.";
+        if (!this.category.title) {
+          this.errors.title = "O título é obrigatório.";
+        } else if (this.category.title.length > 100) {
+          this.errors.title = "O título deve ter no máximo 100 caracteres.";
+        }
+
+        if (!this.category.description) {
+          this.errors.description = "A descrição é obrigatória.";
+        } else if (this.category.description.length > 255) {
+          this.errors.description = "A descrição deve ter no máximo 255 caracteres.";
+        }
+
+        if (!this.category.code) {
+          this.errors.code = "O código é obrigatório.";
+        } else if (!/^[A-Za-z0-9]*$/.test(this.category.code)) {
+          this.errors.code = "O código deve conter apenas letras e números.";
+        }
+
+        if (Object.keys(this.errors).length > 0) {
+          return;
+        }
+
+        axios.post('http://localhost:8080/api/v1/category', this.category)
+          .then(response => {
+            if (response.status === 201) {
+              Swal.fire({
+                title: 'Sucesso!',
+                text: 'Categoria criada com sucesso!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+              })
+            }
+            this.$router.push('/')
+          })
+          .catch(error => {
+            if (error.response && error.response.status === 409) {
+              let message = 'Erro ao criar categoria.'
+              if (error.response.data.message === 'Title is already in use') {
+                message = 'O título informado já está em uso.'
+              } else if (error.response.data.message === 'Code is already in use') {
+                message = 'O código informado já está em uso.'
+              }
+              Swal.fire({
+                title: 'Erro',
+                text: message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+              })
+            } else {
+              Swal.fire({
+                title: 'Erro',
+                text: 'Ocorreu um erro inesperado.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+              })
+            }
+          })
       }
-
-      if (!this.category.code) {
-        this.errors.code = "O código é obrigatório.";
-      } else if (!/^[A-Za-z0-9]*$/.test(this.category.code)) {
-        this.errors.code = "O código deve conter apenas letras e números.";
-      }
-
-      if (Object.keys(this.errors).length > 0) {
-        return;
-      }
-
-      Swal.fire({
-        title: 'Sucesso!',
-        text: 'O formulário foi preenchido corretamente!',
-        icon: 'success',
-        confirmButtonText: 'OK'
-      });
-
-      this.category = { title: '', description: '', code: '' };
     }
   }
-}
 </script>
-
   
 <style scoped>
 .text-danger {
@@ -123,5 +149,4 @@ export default {
   max-width: 600px;
 }
 </style>
-
   
