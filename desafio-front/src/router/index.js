@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CategoryView from '../views/Category/View.vue'
 import CategoryCreate from '../views/Category/Create.vue'
+import CategoryEdit from '../views/Category/Edit.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,11 @@ const router = createRouter({
       path: '/categories/new',
       name: 'categoryCreate',
       component: CategoryCreate,
+    },
+    {
+      path: '/categories/:id/edit',
+      name: 'categoryEdit',
+      component: CategoryEdit,
     },
     {
       path: '/about',
