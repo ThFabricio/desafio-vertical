@@ -97,21 +97,21 @@
                 this.errors = {}
 
                 if (!this.category.title) {
-                this.errors.title = "O título é obrigatório.";
+                    this.errors.title = "O título é obrigatório.";
                 } else if (this.category.title.length > 100) {
-                this.errors.title = "O título deve ter no máximo 100 caracteres.";
+                    this.errors.title = "O título deve ter no máximo 100 caracteres.";
                 }
 
                 if (!this.category.description) {
-                this.errors.description = "A descrição é obrigatória.";
+                    this.errors.description = "A descrição é obrigatória.";
                 } else if (this.category.description.length > 255) {
-                this.errors.description = "A descrição deve ter no máximo 255 caracteres.";
+                    this.errors.description = "A descrição deve ter no máximo 255 caracteres.";
                 }
 
                 if (!this.category.code) {
-                this.errors.code = "O código é obrigatório.";
+                    this.errors.code = "O código é obrigatório.";
                 } else if (!/^[A-Za-z0-9]*$/.test(this.category.code)) {
-                this.errors.code = "O código deve conter apenas letras e números.";
+                    this.errors.code = "O código deve conter apenas letras e números.";
                 }
 
                 if (Object.keys(this.errors).length > 0) {
@@ -134,22 +134,22 @@
                 if (error.response && error.response.status === 409) {
                     let message = 'Erro ao criar categoria.'
                     if (error.response.data.message === 'Title is already in use') {
-                    message = 'O título informado já está em uso.'
+                        message = 'O título informado já está em uso.'
                     } else if (error.response.data.message === 'Code is already in use') {
-                    message = 'O código informado já está em uso.'
+                        message = 'O código informado já está em uso.'
                     }
                     Swal.fire({
-                    title: 'Erro',
-                    text: message,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
+                        title: 'Erro',
+                        text: message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
                     })
                 } else {
                     Swal.fire({
-                    title: 'Erro',
-                    text: 'Ocorreu um erro inesperado.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
+                        title: 'Erro',
+                        text: 'Ocorreu um erro inesperado.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
                     })
                 }
                 })
