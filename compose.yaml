@@ -8,9 +8,6 @@ services:
     image: desafio-api
     ports:
       - "8080:8080"   
-    depends_on:
-      desafio-db:
-        condition: service_healthy
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=desafio-db;Port=5432;Database=postgres;Username=desafio;Password=desafio
